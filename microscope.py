@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 def main():
-    capture_device_index = 2  # Codigo da CAM
+    capture_device_index = 0  # Codigo da CAM
 
     # Abrir o dispositivo de captura
     cap = cv2.VideoCapture(capture_device_index)
@@ -52,7 +52,10 @@ def main():
 
         # Aguardar entrada do teclado
         key = cv2.waitKey(1) & 0xFF
-        if key == ord('1'):
+        if key == ord('0'):
+            current_filter = None
+            print("Filtro desativado")
+        elif key == ord('1'):
             current_filter = "gray"
             print("Filtro: Tons de Cinza")
         elif key == ord('2'):
