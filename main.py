@@ -28,7 +28,7 @@ def num_fotos_ok():
 
     ok = 0
 
-    extensoes_imagens = ['.jpg', '.jpeg', '.png', '.bmp', '.gif']
+    extensoes_imagens = ['.jpg']
 
     for arquivo in os.listdir(caminho_diretorio):
         if os.path.splitext(arquivo)[1].lower() in extensoes_imagens:
@@ -45,7 +45,7 @@ def num_fotos_er():
 
     er = 0
 
-    extensoes_imagens = ['.jpg', '.jpeg', '.png', '.bmp', '.gif']
+    extensoes_imagens = ['.jpg']
 
     for arquivo in os.listdir(caminho_diretorio):
         if os.path.splitext(arquivo)[1].lower() in extensoes_imagens:
