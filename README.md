@@ -25,7 +25,7 @@ This guide provides step-by-step instructions to install TensorFlow (CPU version
 
 ## Prerequisites
 
-1. **Python Installed**: Ensure Python 3.7 or later is installed on your system.
+1. **Python Installed**: Ensure Python 3.9 is installed.
    - Download from [python.org](https://www.python.org/downloads/).
 
 2. **Pip Updated**: Update pip to the latest version:
@@ -164,7 +164,7 @@ Este guia fornece instruções passo a passo para instalar TensorFlow (versão p
 
 ## Pré-requisitos
 
-1. **Python Instalado**: Certifique-se de que o Python 3.7 ou superior está instalado no seu sistema.
+1. **Python Instalado**: Certifique-se de que o Python 3.9 esteja instalado.
    - Baixe em [python.org](https://www.python.org/downloads/).
 
 2. **Pip Atualizado**: Atualize o pip para a versão mais recente:
