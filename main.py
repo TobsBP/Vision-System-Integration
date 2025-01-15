@@ -107,6 +107,7 @@ if __name__ == "__main__":
                         if res == 's':
                             print("Received 's' from Arduino. Starting predictions...")
 
+                            # Clear the input buffer
                             for _ in range(5):
                                 camera.read()
 
@@ -120,29 +121,34 @@ if __name__ == "__main__":
                 
                 if validation:
                     
+                    # Resize and normalize the frame
                     resized_image = cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA)
                     normalized_image = resized_image.astype(np.float32) / 127.5 - 1
                     input_tensor = np.expand_dims(normalized_image, axis=0)
                     
                     for i in range(0,30):
 
+                        # Make predictions
                         predictions = model(input_tensor).numpy()
                         index = np.argmax(predictions)
 
+                        # Get the results
                         class_name = class_names[index]
                         confidence_score = predictions[0][index]
 
+                        # Print the results
                         print(f"Class: {class_name} - Confidence Score: {confidence_score:.2%}")
 
+                        # Based on the results, save the image
                         if confidence_score > 0.99 and class_name == "0 OK!":  
-                            cv2.imwrite(f"Imgs/Certas/image_{cont_ok}.jpg", frame)
+                            cv2.imwrite(f"Imgs/{hoje}/Certas/image_{cont_ok}.jpg", frame)
                             cont_ok = cont_ok + 1
                             ser.write(b'x')  # Manda pra serial 'x' para informar que foi feito
                             print("Sent 'x' to Arduino.")
                             break
                         elif confidence_score > 0.99 and class_name == "1 Erro!":
                             if i == 29:
-                                cv2.imwrite(f"Imgs/Erradas/image_{cont_er}.jpg", frame)
+                                cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
                                 print("Sent 'f' to Arduino.")
                                 cont_er = cont_er + 1
                                 ser.write(b'f')  # Manda pra serial 'f' para informar que nao foi feito

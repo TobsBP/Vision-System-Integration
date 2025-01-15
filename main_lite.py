@@ -125,25 +125,29 @@ if __name__ == "__main__":
                 
                 if validation: 
                     
+                    # Resize and normalize the frame
                     resized_image = cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA)
                     normalized_image = resized_image.astype(np.float32) / 127.5 - 1
                     input_data = np.expand_dims(normalized_image, axis=0).astype(np.float32)
 
+                    # Run inference
                     for i in range(30):
                         interpreter.set_tensor(input_details[0]['index'], input_data)
 
                         interpreter.invoke()
 
+                        # Get the results
                         output_data = interpreter.get_tensor(output_details[0]['index'])
                         class_index = np.argmax(output_data) 
 
                         class_name = class_names[class_index]
                         confidence_score = output_data[0][class_index]
 
+                        # Print the results
                         print(f"Class: {class_name} - Confidence Score: {confidence_score:.2%}")
 
                         if confidence_score > 0.99 and class_name == "0 OK!":  
-                            cv2.imwrite(f"Imgs/image_{cont_ok}.jpg", frame)
+                            cv2.imwrite(f"Imgs/{hoje}/Certas/image_{cont_ok}.jpg", frame)
                             cont_ok = cont_ok + 1
                             ser.write(b'x')  # Manda pra serial 'x' para informar que foi feito
                             print("Sent 'x' to Arduino.")
@@ -151,7 +155,7 @@ if __name__ == "__main__":
                             if i == 29:
                                 cont_er = cont_er + 1
                                 ser.write(b'f')  # Manda pra serial 'f' para informar que nao foi feito
-                                cv2.imwrite(f"Imgs/image_{cont_er}.jpg", frame)
+                                cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
                                 print("Sent 'f' to Arduino.")
                                 break
 
