@@ -110,23 +110,23 @@ if __name__ == "__main__":
                             # Clear the input buffer
                             for _ in range(5):
                                 camera.read()
-
-                            ret, frame = camera.read()
-                        
-                            if not ret:
-                                print("Failed to capture image.")
-                                break
                             
                             validation = True
                 
                 if validation:
+                        
+                    for i in range(0,10):
+
+                        ret, frame = camera.read()
                     
-                    # Resize and normalize the frame
-                    resized_image = cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA)
-                    normalized_image = resized_image.astype(np.float32) / 127.5 - 1
-                    input_tensor = np.expand_dims(normalized_image, axis=0)
-                    
-                    for i in range(0,30):
+                        if not ret:
+                            print("Failed to capture image.")
+                            break
+
+                        # Resize and normalize the frame
+                        resized_image = cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA)
+                        normalized_image = resized_image.astype(np.float32) / 127.5 - 1
+                        input_tensor = np.expand_dims(normalized_image, axis=0)
 
                         # Make predictions
                         predictions = model(input_tensor).numpy()
@@ -147,12 +147,18 @@ if __name__ == "__main__":
                             print("Sent 'x' to Arduino.")
                             break
                         elif confidence_score > 0.99 and class_name == "1 Erro!":
-                            if i == 29:
+                            cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
+                            print("Sent 'f' to Arduino.")
+                            cont_er = cont_er + 1
+                            ser.write(b'f')  # Manda pra serial 'f' para informar que nao foi feito
+                            break  
+                        else:
+                            if i == 9:
+                                cont_er = cont_er + 1
                                 cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
                                 print("Sent 'f' to Arduino.")
-                                cont_er = cont_er + 1
                                 ser.write(b'f')  # Manda pra serial 'f' para informar que nao foi feito
-                                break   
+                                break
 
     except serial.SerialException as e:
         print(f"Serial error: {e}")
