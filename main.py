@@ -25,13 +25,9 @@ diretorio_hoje = os.path.join(main_folder, hoje)
 def create_folder(diretorio_hoje):
     if not os.path.exists(diretorio_hoje):
         os.makedirs(diretorio_hoje)
-    
-    if not os.path.exists(os.path.join(diretorio_hoje, 'Certas')):
         os.makedirs(os.path.join(diretorio_hoje, 'Certas'))
-    
-    if not os.path.exists(os.path.join(diretorio_hoje, 'Erradas')):
         os.makedirs(os.path.join(diretorio_hoje, 'Erradas'))
-
+    
 def graceful_exit(signum, frame):
     """Clean up resources on exit."""
     print("\nExiting program...")
