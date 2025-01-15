@@ -1,4 +1,4 @@
-import cv2, serial, signal, sys, os, re
+import cv2, serial, signal, sys, os, re, datetime
 import tensorflow as tf
 import numpy as np
 
@@ -11,9 +11,26 @@ with open("Beta_saved/labels.txt", "r") as f:
     class_names = [line.strip() for line in f]
 
 # Setting camera and serial port
-camera_index = 2
+camera_index = 0
 serial_port = '/dev/ttyUSB0'
 baud_rate = 9600
+
+# Path to main image folder
+main_folder = 'Imgs'
+
+# Create the folder of the day
+hoje = datetime.datetime.now().strftime("Dia_%d_%m_%y")
+diretorio_hoje = os.path.join(main_folder, hoje)
+
+def create_folder(diretorio_hoje):
+    if not os.path.exists(diretorio_hoje):
+        os.makedirs(diretorio_hoje)
+    
+    if not os.path.exists(os.path.join(diretorio_hoje, 'Certas')):
+        os.makedirs(os.path.join(diretorio_hoje, 'Certas'))
+    
+    if not os.path.exists(os.path.join(diretorio_hoje, 'Erradas')):
+        os.makedirs(os.path.join(diretorio_hoje, 'Erradas'))
 
 def graceful_exit(signum, frame):
     """Clean up resources on exit."""
@@ -24,7 +41,7 @@ def graceful_exit(signum, frame):
     sys.exit(0)
 
 def num_fotos_ok():
-    caminho_diretorio = 'Imgs/Certas'
+    caminho_diretorio = f'Imgs/{hoje}/Certas'
 
     ok = 0
 
@@ -41,7 +58,7 @@ def num_fotos_ok():
     return ok
 
 def num_fotos_er():
-    caminho_diretorio = 'Imgs/Erradas'
+    caminho_diretorio = f'Imgs/{hoje}/Erradas'
 
     er = 0
 
@@ -61,6 +78,8 @@ signal.signal(signal.SIGINT, graceful_exit)
 
 if __name__ == "__main__":
 
+    create_folder(diretorio_hoje)
+
     cont_ok = num_fotos_ok()
     cont_er = num_fotos_er()
 
@@ -72,7 +91,7 @@ if __name__ == "__main__":
             if not camera.isOpened():
                 raise Exception(f"Failed to open camera at index {camera_index}")
 
-            print("Camera initialized. Press ESC to exit.")
+            print("Camera initialized...")
 
             while True:
 
