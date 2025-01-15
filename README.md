@@ -35,7 +35,7 @@ This guide provides step-by-step instructions to install TensorFlow (CPU version
 
 3. **Virtual Environment (Optional but Recommended)**: Create a virtual environment to isolate your packages:
    ```bash
-   python -m venv myenv
+   python3.9 -m venv myenv
    source myenv/bin/activate  # On Windows: myenv\Scripts\activate
    ```
 
@@ -174,7 +174,7 @@ Este guia fornece instruções passo a passo para instalar TensorFlow (versão p
 
 3. **Ambiente Virtual (Opcional, mas Recomendado)**: Crie um ambiente virtual para isolar seus pacotes:
    ```bash
-   python -m venv meuambiente
+   python3.9 -m venv meuambiente
    source meuambiente/bin/activate  # No Windows: meuambiente\Scripts\activate
    ```
 
