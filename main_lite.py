@@ -1,4 +1,4 @@
-import cv2, serial, signal, sys, os, re, datetime
+import cv2, serial, signal, sys, os, re, datetime, shutil
 import tensorflow as tf
 import numpy as np
 
@@ -92,9 +92,25 @@ def save_image_ok(frame, cont_ok):
     return cont_ok
 
 def save_image_er(frame, cont_er):
-    cv2.imwrite(f"Imgs/{hoje}/Certas/image_{cont_er}.jpg", frame)
+    cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
     cont_er = cont_er + 1
     return cont_er
+
+def export_folder():
+    # Define source and destination paths
+    src_path = f"Imgs/{hoje}"
+    dest_path = f"Path/to/server/"
+    
+    # Check if the source folder exists
+    if not os.path.exists(src_path):
+        print(f"Source folder '{src_path}' does not exist.")
+        return
+
+    # Move the folder
+    shutil.move(src_path, dest_path)
+    print(f"Folder moved to: {dest_path}")
+
+    print("Move complete.")
 
 signal.signal(signal.SIGINT, graceful_exit)
 
@@ -131,7 +147,13 @@ if __name__ == "__main__":
                                 break
                             
                             validation = True
-                
+                        
+                        elif res == 'e':
+                            print("Received 'e' from Arduino. Exporting folder...")
+                            export_folder()
+                            print("Ending the program...")
+                            sys.exit()
+
                 if validation: 
 
                     # Run inference
