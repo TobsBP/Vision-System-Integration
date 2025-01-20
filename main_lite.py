@@ -91,12 +91,21 @@ def save_image_er(frame, cont_er):
 def export_folder():
     # Define source and destination paths
     src_path = f"Imgs/{hoje}"
-    dest_path = f"Path/to/server/"
+    dest_path_base = f"Path/to/server/"
     
     # Check if the source folder exists
     if not os.path.exists(src_path):
         print(f"Source folder '{src_path}' does not exist.")
         return
+
+    # Define the destination path with the folder name based on the day
+    dest_path = os.path.join(dest_path_base, hoje)
+    
+    # Check if the destination folder already exists, and if so, increment the counter
+    counter = 1
+    while os.path.exists(dest_path):
+        dest_path = os.path.join(dest_path_base, f"{hoje}_{counter}")
+        counter += 1
 
     # Move the folder
     shutil.move(src_path, dest_path)
