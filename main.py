@@ -151,7 +151,7 @@ if __name__ == "__main__":
                         # Based on the results, save the image
                         if confidence_score > 0.99 and class_name == "0 OK!":  
                             cont_ok = save_image_ok(frame, cont_ok)
-                            if degub: print("Sent 'x' to Arduino.")
+                            if debug: print("Sent 'x' to Arduino.")
                             ser.write(b'x')
                             break
                         elif confidence_score > 0.99 and class_name == "1 Erro!":

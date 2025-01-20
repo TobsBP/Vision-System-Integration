@@ -19,13 +19,13 @@
 
 ---
 
-# Installation Guide for TensorFlow CPU, PySerial, and OpenCV
+# Installation Guide
 
 This guide provides step-by-step instructions to install TensorFlow (CPU version), PySerial, and OpenCV in a Python environment.
 
 ## Prerequisites
 
-1. **Python Installed**: Ensure Python 3.9 is installed.
+1. **Python Installed**: Ensure Python 3.9.21 is installed.
    - Download from [python.org](https://www.python.org/downloads/).
 
 2. **Pip Updated**: Update pip to the latest version:
@@ -41,52 +41,21 @@ This guide provides step-by-step instructions to install TensorFlow (CPU version
 
 ## Installation Steps
 
-### 1. Install TensorFlow (CPU Version)
-TensorFlow CPU version does not require CUDA or GPU drivers and works on most systems.
+### 1. Install Required Packages
+Use the `requirements.txt` file to install all necessary packages.
 
 Run the following command:
 ```bash
-pip install tensorflow-cpu
+pip install -r requirements.txt
 ```
 
-Verify the installation:
+Verify the installations:
 ```bash
 python -c "import tensorflow as tf; print(tf.__version__)"
-```
-You should see the TensorFlow version number printed.
-
-### 2. Install PySerial
-PySerial allows communication with serial ports.
-
-Run the following command:
-```bash
-pip install pyserial
-```
-
-Verify the installation:
-```bash
 python -c "import serial; print(serial.__version__)"
-```
-You should see the PySerial version number printed.
-
-### 3. Install OpenCV
-OpenCV is a library for computer vision tasks.
-
-Run the following command:
-```bash
-pip install opencv-python
-```
-
-If you need additional functionality (e.g., contrib modules):
-```bash
-pip install opencv-contrib-python
-```
-
-Verify the installation:
-```bash
 python -c "import cv2; print(cv2.__version__)"
 ```
-You should see the OpenCV version number printed.
+You should see the version numbers for TensorFlow, PySerial, and OpenCV printed.
 
 ## Troubleshooting
 
@@ -158,13 +127,13 @@ pip uninstall tensorflow-cpu
 
 ---
 
-# Guia de Instalação para TensorFlow CPU, PySerial e OpenCV
+# Guia de Instalação
 
 Este guia fornece instruções passo a passo para instalar TensorFlow (versão para CPU), PySerial e OpenCV em um ambiente Python.
 
 ## Pré-requisitos
 
-1. **Python Instalado**: Certifique-se de que o Python 3.9 esteja instalado.
+1. **Python Instalado**: Certifique-se de que o Python 3.9.21 esteja instalado.
    - Baixe em [python.org](https://www.python.org/downloads/).
 
 2. **Pip Atualizado**: Atualize o pip para a versão mais recente:
@@ -180,52 +149,21 @@ Este guia fornece instruções passo a passo para instalar TensorFlow (versão p
 
 ## Passos de Instalação
 
-### 1. Instalar o TensorFlow (Versão para CPU)
-A versão para CPU do TensorFlow não requer CUDA ou drivers de GPU e funciona na maioria dos sistemas.
+### 1. Instalar Pacotes Requeridos
+Use o arquivo `requirements.txt` para instalar todos os pacotes necessários.
 
 Execute o seguinte comando:
 ```bash
-pip install tensorflow-cpu
+pip install -r requirements.txt
 ```
 
-Verifique a instalação:
+Verifique as instalações:
 ```bash
 python -c "import tensorflow as tf; print(tf.__version__)"
-```
-Você deverá ver o número da versão do TensorFlow impresso.
-
-### 2. Instalar o PySerial
-O PySerial permite a comunicação com portas seriais.
-
-Execute o seguinte comando:
-```bash
-pip install pyserial
-```
-
-Verifique a instalação:
-```bash
 python -c "import serial; print(serial.__version__)"
-```
-Você deverá ver o número da versão do PySerial impresso.
-
-### 3. Instalar o OpenCV
-O OpenCV é uma biblioteca para tarefas de visão computacional.
-
-Execute o seguinte comando:
-```bash
-pip install opencv-python
-```
-
-Se precisar de funcionalidades adicionais (e.g., módulos contrib):
-```bash
-pip install opencv-contrib-python
-```
-
-Verifique a instalação:
-```bash
 python -c "import cv2; print(cv2.__version__)"
 ```
-Você deverá ver o número da versão do OpenCV impresso.
+Você deverá ver os números das versões do TensorFlow, PySerial e OpenCV impressos.
 
 ## Solução de Problemas
 
