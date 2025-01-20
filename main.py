@@ -30,14 +30,6 @@ def create_folder(diretorio_hoje):
         os.makedirs(diretorio_hoje)
         os.makedirs(os.path.join(diretorio_hoje, 'Certas'))
         os.makedirs(os.path.join(diretorio_hoje, 'Erradas'))
-    
-def graceful_exit(signum, frame):
-    """Clean up resources on exit."""
-    print("\nExiting program...")
-    if camera.isOpened():
-        camera.release()
-    cv2.destroyAllWindows()
-    sys.exit(0)
 
 def num_fotos_ok():
     caminho_diretorio = f'Imgs/{hoje}/Certas'
@@ -100,8 +92,6 @@ def export_folder():
     print("Move complete.")
 
 def main():
-    signal.signal(signal.SIGINT, graceful_exit)
-
     create_folder(diretorio_hoje)
 
     cont_ok = num_fotos_ok()
@@ -191,7 +181,6 @@ def main():
         print(f"Serial error: {e}")
     except Exception as e:
         print(f"Unexpected error: {e}")
-        graceful_exit(None, None)
     finally:
         if camera.isOpened():
             camera.release()
