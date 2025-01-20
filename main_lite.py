@@ -112,9 +112,8 @@ def export_folder():
 
     print("Move complete.")
 
-signal.signal(signal.SIGINT, graceful_exit)
-
-if __name__ == "__main__":
+def main():
+    signal.signal(signal.SIGINT, graceful_exit)
 
     create_folder(diretorio_hoje)
 
@@ -199,13 +198,15 @@ if __name__ == "__main__":
                                 if debug: print("Sent 'f' to Arduino.")
                                 ser.write(b'f')
                                 break
-    except KeyboardInterrupt:
-        print("Program interrupted by user.")
     except serial.SerialException as e:
         print(f"Serial error: {e}")
     except Exception as e:
         print(f"Unexpected error: {e}")
+        graceful_exit(None, None)
     finally:
         if camera.isOpened():
             camera.release()
         cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()

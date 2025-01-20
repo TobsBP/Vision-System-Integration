@@ -19,7 +19,7 @@ baud_rate = 9600
 main_folder = 'Imgs'
 
 # Debug mode 
-debug = True
+debug = False
 
 # Create the folder of the day
 hoje = datetime.datetime.now().strftime("Dia_%d_%m_%y")
@@ -99,9 +99,8 @@ def export_folder():
 
     print("Move complete.")
 
-signal.signal(signal.SIGINT, graceful_exit)
-
-if __name__ == "__main__":
+def main():
+    signal.signal(signal.SIGINT, graceful_exit)
 
     create_folder(diretorio_hoje)
 
@@ -192,7 +191,11 @@ if __name__ == "__main__":
         print(f"Serial error: {e}")
     except Exception as e:
         print(f"Unexpected error: {e}")
+        graceful_exit(None, None)
     finally:
         if camera.isOpened():
             camera.release()
         cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
