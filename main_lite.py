@@ -31,6 +31,9 @@ baud_rate = 9600
 # Path to main image folder
 main_folder = 'Imgs'
 
+# Debug mode
+debug = False
+
 # Create the folder of the day
 hoje = datetime.datetime.now().strftime("Dia_%d_%m_%y")
 diretorio_hoje = os.path.join(main_folder, hoje)
@@ -82,6 +85,16 @@ def num_fotos_er():
                     er = numero
     
     return er
+
+def save_image_ok(frame, cont_ok):
+    cv2.imwrite(f"Imgs/{hoje}/Certas/image_{cont_ok}.jpg", frame)
+    cont_ok = cont_ok + 1
+    return cont_ok
+
+def save_image_er(frame, cont_er):
+    cv2.imwrite(f"Imgs/{hoje}/Certas/image_{cont_er}.jpg", frame)
+    cont_er = cont_er + 1
+    return cont_er
 
 signal.signal(signal.SIGINT, graceful_exit)
 
@@ -149,24 +162,21 @@ if __name__ == "__main__":
                         print(f"Class: {class_name} - Confidence Score: {confidence_score:.2%}")
 
                         if confidence_score > 0.99 and class_name == "0 OK!":  
-                            cv2.imwrite(f"Imgs/{hoje}/Certas/image_{cont_ok}.jpg", frame)
-                            cont_ok = cont_ok + 1
-                            ser.write(b'x')  # Manda pra serial 'x' para informar que foi feito
-                            print("Sent 'x' to Arduino.")
+                            cont_ok = save_image_ok(frame, cont_ok)
+                            if debug: print("Sent 'x' to Arduino.")
+                            ser.write(b'x') 
+                            break
                         elif confidence_score > 0.99 and class_name == "1 Erro!":
-                            cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
-                            print("Sent 'f' to Arduino.")
-                            cont_er = cont_er + 1
-                            ser.write(b'f')  # Manda pra serial 'f' para informar que nao foi feito
+                            cont_er = save_image_er(frame, cont_er)
+                            if debug: print("Sent 'f' to Arduino.")
+                            ser.write(b'f')
                             break  
                         else:
                             if i == 9:
-                                cont_er = cont_er + 1
-                                cv2.imwrite(f"Imgs/{hoje}/Erradas/image_{cont_er}.jpg", frame)
-                                print("Sent 'f' to Arduino.")
-                                ser.write(b'f')  # Manda pra serial 'f' para informar que nao foi feito
+                                cont_er = save_image_er(frame, cont_er)
+                                if debug: print("Sent 'f' to Arduino.")
+                                ser.write(b'f')
                                 break
-
     except KeyboardInterrupt:
         print("Program interrupted by user.")
     except serial.SerialException as e:
