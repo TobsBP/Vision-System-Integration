@@ -88,6 +88,7 @@ def save_image_er(frame, cont_er):
     cont_er = cont_er + 1
     return cont_er
 
+# I need to correct this function
 def export_folder():
     # Define source and destination paths
     src_path = f"Imgs/{hoje}"
