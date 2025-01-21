@@ -1,4 +1,4 @@
-import cv2, serial, signal, sys, os, re, datetime, shutil
+import cv2, serial, signal, sys, os, re, datetime, shutil, time
 import tensorflow as tf
 import numpy as np
 
@@ -114,6 +114,25 @@ def export_folder():
     print("Move complete.")
 
 def main():
+
+    while True:
+        try:
+            ser = serial.Serial('/dev/ttyUSB0', 9600)
+            print("Arduino conectado!")
+            break
+        except serial.SerialException:
+            print("Esperando Arduino...")
+            time.sleep(1)
+
+    while True:
+        camera = cv2.VideoCapture(camera_index)
+        if camera.isOpened():
+            print("Câmera conectada!")
+            break
+        else:
+            print("Esperando Câmera...")
+            time.sleep(1)
+
     create_folder(diretorio_hoje)
 
     cont_ok = num_fotos_ok()
@@ -123,7 +142,6 @@ def main():
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
             print("Serial port connected.")
 
-            camera = cv2.VideoCapture(camera_index)
             if not camera.isOpened():
                 raise Exception(f"Failed to open camera at index {camera_index}")
 
