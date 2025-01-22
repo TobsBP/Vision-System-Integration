@@ -1,5 +1,27 @@
 # Vision-System-Integration
 
+## Main Scripts
+
+There are two main scripts provided in this project: `main.py` and `main_lite.py`.
+
+### main.py
+This script uses the full TensorFlow model for image classification. It is suitable for environments where computational resources are not a constraint. The script performs the following tasks:
+- Connects to the Arduino and camera.
+- Captures images from the camera.
+- Uses the TensorFlow model to classify the images.
+- Sends results back to the Arduino and saves the images in appropriate folders.
+
+### main_lite.py
+This script uses a TensorFlow Lite model for image classification. It is optimized for environments with limited computational resources. The script performs similar tasks as `main.py` but with a lighter model:
+- Connects to the Arduino and camera.
+- Captures images from the camera.
+- Uses the TensorFlow Lite model to classify the images.
+- Sends results back to the Arduino and saves the images in appropriate folders.
+
+Both scripts ensure that the system remains locked until the "boca de lobo" button is pressed, and they provide functionality to export the captured images to a specified server path.
+
+---
+
 # Microscope - Setup and Operation  
 
 ## Requirements  
@@ -100,11 +122,14 @@ pip uninstall tensorflow-cpu
 - Trained to recognize specific patterns of colors and positions.  
 
 ### Process  
-1. The AI analyzes the captured image **30 times**.  
-2. If the wires are out of alignment:  
+1. The AI analyzes the captured image **10 times**.  
+2. If the wires are out of alignment or the confidence score is below 99%:  
    - The system sends an `'f'` character to the Arduino.  
    - A LED is turned on to indicate an error.  
-3. The system remains locked until the "boca de lobo" button is pressed.  
+3. If the wires are correctly aligned and the confidence score is above 99%:  
+   - The system sends an `'x'` character to the Arduino.  
+   - The image is saved in the "Certas" folder.
+4. The system remains locked until the "boca de lobo" button is pressed.  
 
 ---
 
@@ -208,10 +233,13 @@ pip uninstall tensorflow-cpu
 - Treinada para reconhecer padrões específicos de cores e posições.  
 
 ### Processo  
-1. A IA analisa a foto capturada **30 vezes**.  
-2. Se os fios estiverem fora do padrão:  
+1. A IA analisa a foto capturada **10 vezes**.  
+2. Se os fios estiverem fora do padrão ou a confiança for inferior a 99%:  
    - O sistema envia o caractere `'f'` para o Arduino.  
    - Um LED é aceso, indicando erro.  
-3. Enquanto o botão da "boca de lobo" não for pressionado, o sistema permanecerá travado.  
+3. Se os fios estiverem corretamente alinhados e a confiança for superior a 99%:  
+   - O sistema envia o caractere `'x'` para o Arduino.  
+   - A imagem é salva na pasta "Certas".
+4. Enquanto o botão da "boca de lobo" não for pressionado, o sistema permanecerá travado.  
 
 ---
