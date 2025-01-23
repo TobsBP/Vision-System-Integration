@@ -1,4 +1,4 @@
-import cv2, serial, signal, sys, os, re, datetime, shutil, time
+import cv2, serial, sys, os, re, datetime, shutil, time
 import tensorflow as tf
 import numpy as np
 
