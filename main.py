@@ -101,6 +101,7 @@ def export_folder():
     print("Move complete.")
 
 def main():
+    # Wait for the Arduino to connect
     while True:
         try:
             ser = serial.Serial('/dev/ttyUSB0', 9600)
@@ -110,6 +111,7 @@ def main():
             print("Esperando Arduino...")
             time.sleep(1)
 
+    # Wait for the camera to connect
     while True:
         camera = cv2.VideoCapture(camera_index)
         if camera.isOpened():
@@ -118,13 +120,14 @@ def main():
         else:
             print("Esperando Câmera...")
             time.sleep(1)
-
+        
     create_folder(diretorio_hoje)
 
     cont_ok = num_fotos_ok()
     cont_er = num_fotos_er()
 
     try:
+        # Connect to the serial port
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
             print("Serial port connected.")
 
@@ -135,11 +138,13 @@ def main():
 
             while True:
 
+                # Reset the input and output buffers
                 ser.reset_input_buffer()  
                 ser.reset_output_buffer()
 
                 validation = False
 
+                # Wait for a signal from the Arduino
                 while not validation:
                     if ser.in_waiting > 0:
                         res = ser.read().decode('utf-8', errors='ignore').strip()
@@ -160,7 +165,7 @@ def main():
                             sys.exit()
                 
                 if validation:
-                        
+                    
                     for i in range(0,10):
 
                         ret, frame = camera.read()

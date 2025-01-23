@@ -115,6 +115,7 @@ def export_folder():
 
 def main():
 
+    # Wait for the Arduino to connect
     while True:
         try:
             ser = serial.Serial('/dev/ttyUSB0', 9600)
@@ -124,6 +125,7 @@ def main():
             print("Esperando Arduino...")
             time.sleep(1)
 
+    # Wait for the camera to connect
     while True:
         camera = cv2.VideoCapture(camera_index)
         if camera.isOpened():

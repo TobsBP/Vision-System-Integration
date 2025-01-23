@@ -20,6 +20,15 @@ This script uses a TensorFlow Lite model for image classification. It is optimiz
 
 Both scripts ensure that the system remains locked until the "boca de lobo" button is pressed, and they provide functionality to export the captured images to a specified server path.
 
+## Other Scripts
+
+### load_screen.py
+This script just opens a screen to show the video from the video capture board. I use it to see the Raspberry Pi screen.
+- Connects to the USB port. 
+
+### microscope.py
+This script just opens a screen to show the video from the video capture board, but here I can apply some filters. I was testing some filters to use in the AI.
+- Connects to the USB port.
 ---
 
 # Microscope - Setup and Operation  
@@ -216,6 +225,37 @@ pip uninstall tensorflow-cpu
 - [Documentação do TensorFlow](https://www.tensorflow.org/install/pip)
 - [Documentação do PySerial](https://pyserial.readthedocs.io/en/latest/)
 - [Documentação do OpenCV](https://docs.opencv.org/)
+
+---
+## Scripts Principais
+
+Existem dois scripts principais fornecidos neste projeto: `main.py` e `main_lite.py`.
+
+### main.py
+Este script usa o modelo completo do TensorFlow para classificação de imagens. É adequado para ambientes onde os recursos computacionais não são uma restrição. O script realiza as seguintes tarefas:
+- Conecta-se ao Arduino e à câmera.
+- Captura imagens da câmera.
+- Usa o modelo TensorFlow para classificar as imagens.
+- Envia os resultados de volta para o Arduino e salva as imagens em pastas apropriadas.
+
+### main_lite.py
+Este script usa um modelo TensorFlow Lite para classificação de imagens. É otimizado para ambientes com recursos computacionais limitados. O script realiza tarefas semelhantes ao `main.py`, mas com um modelo mais leve:
+- Conecta-se ao Arduino e à câmera.
+- Captura imagens da câmera.
+- Usa o modelo TensorFlow Lite para classificar as imagens.
+- Envia os resultados de volta para o Arduino e salva as imagens em pastas apropriadas.
+
+Ambos os scripts garantem que o sistema permaneça bloqueado até que o botão "boca de lobo" seja pressionado, e fornecem funcionalidade para exportar as imagens capturadas para um caminho de servidor especificado.
+
+## Outros Scripts
+
+### load_screen.py
+Este script apenas abre uma tela para mostrar o vídeo da placa de captura de vídeo. Eu uso para ver a tela do Raspberry Pi.
+- Conecta-se à porta USB.
+
+### microscope.py
+Este script apenas abre uma tela para mostrar o vídeo da placa de captura de vídeo, mas aqui eu posso aplicar alguns filtros. Eu estava testando alguns filtros para usar na IA.
+- Conecta-se à porta USB.
 
 ---
 
