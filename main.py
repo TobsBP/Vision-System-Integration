@@ -1,4 +1,4 @@
-import cv2, serial, sys, os, re, datetime, shutil, time
+import cv2, serial, sys, os, re, datetime, time, subprocess
 import tensorflow as tf
 import numpy as np
 
@@ -79,14 +79,16 @@ def export_folder():
     # Define source and destination paths
     src_path = f"Imgs/{hoje}"
     dest_path_base = "Path/to/server/"
-
+    server_username = "username"  
+    server_ip = "server_ip_address"
+ 
     # Check if the source folder exists
     if not os.path.exists(src_path):
         print(f"Source folder '{src_path}' does not exist.")
         return
 
     # Define the initial destination path
-    dest_path = os.path.join(dest_path_base, hoje)
+    dest_path = f"{server_username}@{server_ip}:{dest_path}/{hoje}"
 
     # Increment the counter if the folder already exists in the destination
     counter = 1
@@ -94,11 +96,11 @@ def export_folder():
         dest_path = os.path.join(dest_path_base, f"{hoje}_{counter}")
         counter += 1
 
-    # Move the folder
-    shutil.move(src_path, dest_path)
-    print(f"Folder moved to: {dest_path}")
-
-    print("Move complete.")
+    try:
+        subprocess.run(["scp", "-r", src_path, dest_path], check=True)
+        print(f"Folder successfully transferred to: {dest_path}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error transferring folder: {e}")
 
 def main():
     # Wait for the Arduino to connect
