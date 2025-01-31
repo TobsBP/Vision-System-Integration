@@ -94,7 +94,7 @@ def export_folder():
     dest_path_base = "Path/to/server/"
     server_username = "username"  
     server_ip = "server_ip_address"
- 
+    
     # Check if the source folder exists
     if not os.path.exists(src_path):
         print(f"Source folder '{src_path}' does not exist.")
@@ -127,16 +127,6 @@ def main():
             print("Esperando Arduino...")
             time.sleep(1)
 
-    # Wait for the camera to connect
-    while True:
-        camera = cv2.VideoCapture(camera_index)
-        if camera.isOpened():
-            print("Câmera conectada!")
-            break
-        else:
-            print("Esperando Câmera...")
-            time.sleep(1)
-
     create_folder(diretorio_hoje)
 
     cont_ok = num_fotos_ok()
@@ -145,11 +135,6 @@ def main():
     try:
         with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
             print("Serial port connected.")
-
-            if not camera.isOpened():
-                raise Exception(f"Failed to open camera at index {camera_index}")
-
-            print("Camera initialized...")
 
             while True:
 
@@ -160,6 +145,8 @@ def main():
                         res = ser.read().decode('utf-8', errors='ignore').strip()
                         if res == 's':
                             print("Received 's' from Arduino. Starting predictions...")
+                            
+                            camera = cv2.VideoCapture(camera_index) 
                             ret, frame = camera.read()
                 
                             if not ret:
@@ -177,7 +164,7 @@ def main():
                 if validation: 
 
                     # Run inference
-                    for i in range(0,10):
+                    for i in range(0,5):
                         ret, frame = camera.read()
                     
                         if not ret:
@@ -214,11 +201,13 @@ def main():
                             ser.write(b'f')
                             break  
                         else:
-                            if i == 9:
+                            if i == 4:
                                 cont_er = save_image_er(frame, cont_er)
                                 if debug: print("Sent 'f' to Arduino.")
                                 ser.write(b'f')
                                 break
+                    camera.release()
+
     except serial.SerialException as e:
         print(f"Serial error: {e}")
     except Exception as e:
